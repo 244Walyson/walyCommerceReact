@@ -1,6 +1,7 @@
 import './App.css'
 import computerImg from './assets/computer.png'
-import cart from './assets/cart.svg'
+import ButtonInverse from './components/ButtonInverse'
+import ButtonPrimary from './components/ButtonPrimary'
 import HeaderClient from './components/HeaderClient/Index'
 
 function App() {
@@ -36,12 +37,8 @@ function App() {
           </div>
         </div>
         <div className="dsc-btn-page-container">
-            <div className="dsc-btn dsc-btn-blue">
-                Comprar
-            </div>
-            <div className="dsc-btn dsc-btn-white">
-                Início
-            </div>
+            <ButtonPrimary></ButtonPrimary>
+            <ButtonInverse></ButtonInverse>
         </div>
       </section>
     </main>
