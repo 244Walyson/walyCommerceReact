@@ -22,6 +22,10 @@
     font-size: 12px;
 }
 
+.categories{
+    display: flex;
+}
+
 .dsc-product-details-bottom p {
     color: var(--dsc-color-font-primary);
     font-size: 12px;

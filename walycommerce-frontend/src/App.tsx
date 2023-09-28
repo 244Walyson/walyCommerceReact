@@ -4,8 +4,8 @@ import ProductDetails from './routes/ProductDetails'
 function App() {
   return (
     <>
-    {/* <ProductDetails></ProductDetails> */}
-    <Catalog></Catalog>
+    <ProductDetails></ProductDetails>
+    {/* <Catalog></Catalog> */}
     </>
   )
 }

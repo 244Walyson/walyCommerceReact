@@ -1,9 +1,13 @@
 import './styles.css'
-const ProductCategory = () => {
+
+type props = {
+  name: string;
+}
+const ProductCategory = ({ name }: props) => {
   return (
     <div className="dsc-category-container">
     <div className="dsc-category">
-        Eletrônicos
+        {name}
     </div>
 </div>
   )
