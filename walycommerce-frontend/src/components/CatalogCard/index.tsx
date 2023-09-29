@@ -1,16 +1,18 @@
 import './styles.css'
-import computerImg from '../../assets/computer.png'
 
-const CatalogCard = () => {
+type prop = {
+  product: ProductDTO;
+}
+const CatalogCard = ({ product }: prop) => {
   return (
-    <div className="dsc-card">
-            <div className="dsc-catalog-card-top dsc-line-bottom">
-              <img src={computerImg} alt="Computer" />
+    <div className="dsc-card" key={product.id}>
+              <div className="dsc-catalog-card-top dsc-line-bottom">
+              <img src={product.imgUrl} alt="Computer" />
             </div>
             <div className="dsc-catalog-card-bottom">
-              <h3>R$ 5000,00</h3>
+              <h3>R$ {product.price}</h3>
               <h4>
-                Computador Gamer XT
+               {product.name}
               </h4>
             </div>
           </div>

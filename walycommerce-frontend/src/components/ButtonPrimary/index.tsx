@@ -1,7 +1,10 @@
 
-const ButtonPrimary = () => {
+type props = {
+  text: string;
+}
+const ButtonPrimary = ({ text }: props) => {
   return (
-    <div className="dsc-btn dsc-btn-blue">Comprar</div>
+    <div className="dsc-btn dsc-btn-blue">{text}</div>
   )
 }
 

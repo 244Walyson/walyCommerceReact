@@ -1,12 +1,19 @@
-import Catalog from './routes/Catalog'
-import ProductDetails from './routes/ProductDetails'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import ProductDetails from './routes/ClientHome/ProductDetails'
+import ClientHome from './routes/ClientHome'
+import Catalog from './routes/ClientHome/Catalog'
 
 function App() {
   return (
-    <>
-    <ProductDetails></ProductDetails>
-    {/* <Catalog></Catalog> */}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<ClientHome></ClientHome>}>
+        <Route path='/' element={<Catalog></Catalog>}></Route>
+          <Route path='/catalog' element={<Catalog></Catalog>}></Route>
+          <Route path='product-details' element={<ProductDetails></ProductDetails>}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
