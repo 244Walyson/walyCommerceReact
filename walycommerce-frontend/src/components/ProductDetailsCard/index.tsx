@@ -1,49 +1,34 @@
-import computerImg from '../../assets/computer.png'
+import { ProductDTO } from '../../models/ProductModel'
 import ProductCategory from '../ProductCategory'
 import './styles.css'
 
-const ProductDetailsCard = () => {
+type props = {
+  product: ProductDTO | undefined;
+}
 
-  const categories = [
-    {
-      id: 1,
-      name: "Computadores"
-    },
-    {
-      id: 2,
-      name: "Eletrônicos"
-    },
-    {
-      id: 3,
-      name: "Importados"
-    }
-  ]
+const ProductDetailsCard = ({product}: props) => {
+
+  const item = product;
+
   return (
-        <div className="dsc-card dsc-mb20">
+          <div className="dsc-card dsc-mb20">
           <div className="dsc-product-details-top dsc-line-bottom">
-            <img src={computerImg} alt="Computador" />
+            <img src={item?.imgUrl} alt="Computador" />
           </div>
           <div className="dsc-product-details-bottom">
-            <h3>R$ 5000,00</h3>
-            <h4>Computador Gamer XT</h4>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <h3>R$ {item && item.price}</h3>
+            <h4>{item && item.name}</h4>
+            <p>{item && item.description}</p>
             <div className="categories">
-              {
-                categories.map(item =>(
+              {item &&
+                item.categories.map(item =>(
                   <ProductCategory key={item.id} name={item.name}></ProductCategory>
                 ))
               }
             </div>
           </div>
         </div>
+        
   )
 }
 
