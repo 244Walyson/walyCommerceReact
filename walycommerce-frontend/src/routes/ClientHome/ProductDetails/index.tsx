@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import ButtonInverse from '../../../components/ButtonInverse'
 import ButtonPrimary from '../../../components/ButtonPrimary'
 import ProductDetailsCard from '../../../components/ProductDetailsCard'
@@ -10,14 +10,18 @@ import { findById } from '../../../services/productService'
 
 const ProductDetails = () => {
 
+  const navigate = useNavigate()
   const params = useParams()
   const [product, seProduct] = useState<ProductDTO>();
 
   useEffect(() => {
     findById(Number(params.productId))
-    .then(response =>{
-      seProduct(response.data)
-    })
+      .then(response => {
+        seProduct(response.data)
+      })
+      .catch(() => {
+        navigate("/")
+      })
   }, [])
 
   return (
