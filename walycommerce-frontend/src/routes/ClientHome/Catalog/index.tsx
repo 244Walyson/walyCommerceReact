@@ -5,7 +5,7 @@ import ButtonNextPage from '../../../components/ButtonNextPage'
 import { ProductDTO } from '../../../models/ProductModel'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { findAll } from '../../../services/productService'
 
 
 const Catalog = () => {
@@ -14,7 +14,7 @@ const Catalog = () => {
   const [page, setPage] = useState(0)
 
   useEffect(() => {
-    axios.get("http://localhost:8080/products?page="+ page)
+   findAll()
     .then(response =>{
       setProducts(response.data.content)
     })

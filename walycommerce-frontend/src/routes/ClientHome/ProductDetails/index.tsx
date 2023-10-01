@@ -6,7 +6,7 @@ import './styles.css'
 import { ProductDTO } from '../../../models/ProductModel'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { findById } from '../../../services/productService'
 
 const ProductDetails = () => {
 
@@ -14,10 +14,10 @@ const ProductDetails = () => {
   const [product, seProduct] = useState<ProductDTO>();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/products/" + Number(params.productId))
-      .then(response => {
-        seProduct(response.data)
-      })    
+    findById(Number(params.productId))
+    .then(response =>{
+      seProduct(response.data)
+    })
   }, [])
 
   return (
