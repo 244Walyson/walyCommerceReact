@@ -6,12 +6,19 @@ import { ProductDTO } from '../../../models/ProductModel'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { findAll } from '../../../services/productService'
+import { Category } from '../../../models/CategoryModel'
 
 
 const Catalog = () => {
 
   const [product, setProducts] = useState<ProductDTO[]>()
   const [page, setPage] = useState(0)
+
+  const objTest : Category = {
+    id: 8,
+    name: "jardinagem"
+  }
+  localStorage.setItem('minha categoria', JSON.stringify(objTest))
 
   useEffect(() => {
    findAll()
