@@ -1,4 +1,4 @@
-import { OrderDTO } from "../models/Order";
+import { OrderDTO, OrderItemDTO } from "../models/Order";
 import { CART_KEY } from "../utils/system";
 
 
@@ -9,5 +9,14 @@ export function save(cart: OrderDTO){
 
 export function get(): OrderDTO{
     const str = localStorage.getItem(CART_KEY) || '{"items":[]}'
-    return JSON.parse(str)
+    const obj = JSON.parse(str)
+    const cart = new OrderDTO()
+    obj.items.forEach((x: OrderItemDTO) => {
+        cart.items.push(new OrderItemDTO(x.productId, x.quantity, x.name, x.price, x.imgUrl))
+    });
+    return cart
+}
+
+export function clear(){
+    localStorage.setItem(CART_KEY, '"items": []')
 }
