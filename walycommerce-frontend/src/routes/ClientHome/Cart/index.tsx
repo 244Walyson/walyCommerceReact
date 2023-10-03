@@ -13,6 +13,7 @@ const item2 : OrderItemDTO = new OrderItemDTO(
 
 const Cart = () => {
     const [cart, setCart] = useState<OrderDTO | undefined>(cartService.getCart())
+
     return (
         <main>
             <section id="cart-container-section" className="dsc-container">
