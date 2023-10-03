@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { OrderDTO } from '../../../models/Order'
 import * as cartService from '../../../services/cartService'
 import './styles.css'
@@ -54,9 +55,11 @@ const Cart = () => {
                     <div className="dsc-btn dsc-btn-blue">
                         Finalizar pedido
                     </div>
+                    <Link to={"/"}>
                     <div className="dsc-btn dsc-btn-white">
                         Continuar comprando
                     </div>
+                    </Link>
                 </div>
             </section>
         </main>

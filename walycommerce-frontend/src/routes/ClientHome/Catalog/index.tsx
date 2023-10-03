@@ -5,32 +5,49 @@ import ButtonNextPage from '../../../components/ButtonNextPage'
 import { ProductDTO } from '../../../models/ProductModel'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { findAll } from '../../../services/productService'
+import { findPageRequest } from '../../../services/productService'
 
+type QueryParams = {
+  page: number;
+  name: string;
+}
 
 const Catalog = () => {
 
   const [product, setProducts] = useState<ProductDTO[]>()
-  const [page, setPage] = useState(0)
+  const [QueryParams, setQueryParams] = useState<QueryParams>({page: 0, name: ""})
+  const [isLastPage, setIsLastPage] = useState(false)
 
   useEffect(() => {
-   findAll()
+   findPageRequest(QueryParams.page, QueryParams.name)
     .then(response =>{
-      setProducts(response.data.content)
+      const nextPage = response.data.content
+      setProducts(product?.concat(nextPage))
+      setIsLastPage(response.data.last)
     })
-  }, [])
+  }, [QueryParams])
+
+  const handleClickNextPage = () => {
+      setQueryParams({...QueryParams, page: (QueryParams.page + 1)})
+  }
+
+  const handleSearch = (value: string) => {
+    console.log(value)
+    setProducts([])
+    setQueryParams({...QueryParams, name: value, page: 0})
+  }
 
   return (
     <main>
       <section id="catalog-section" className="dsc-container">
-        <SearchBar></SearchBar>
+        <SearchBar onsearchValue={handleSearch}></SearchBar>
 
         <div className="dsc-catalog-cards dsc-mb20 dsc-mt20">
           {product && product.map((item) => (
-            <Link to={`/product-details/${item.id}`}><CatalogCard product={item} key={item.id}></CatalogCard></Link>
+            <Link to={`/product-details/${item.id}`} key={item.id}><CatalogCard product={item}></CatalogCard></Link>
           ))}
         </div>
-        <div onClick={() => setPage(page + 1)}><ButtonNextPage></ButtonNextPage></div>
+        {!isLastPage && <div onClick={handleClickNextPage}><ButtonNextPage></ButtonNextPage></div>}
       </section>
     </main>
   )
