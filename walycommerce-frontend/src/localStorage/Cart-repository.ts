@@ -1,11 +1,12 @@
 import { OrderDTO } from "../models/Order";
+import { CART_KEY } from "../utils/system";
 
 export function save(cart: OrderDTO){
     const str = JSON.stringify(cart);
-    localStorage.setItem("com.waly.dscommerce/cart", str)
+    localStorage.setItem(CART_KEY, str)
 }
 
 export function get(): OrderDTO{
-    const str = localStorage.getItem("com.waly.dscommerce/cart") || '{"items"=[]}'
+    const str = localStorage.getItem(CART_KEY) || '{"items"=[]}'
     return JSON.parse(str)
 }
