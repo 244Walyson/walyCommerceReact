@@ -7,6 +7,15 @@ import { useState } from 'react'
 const Cart = () => {
     const [cart, setCart] = useState<OrderDTO>(cartService.getCart())
     console.log(cart)
+    const handleIncreaseItem = (productId: number) => {
+        cartService.increaseItem(productId)
+        setCart(cartService.getCart())
+    }
+
+    const handleDecreaseItem = (productId: number) => {
+        cartService.decreaseItem(productId)
+        setCart(cartService.getCart())
+    }
     return (
         <main>
             <section id="cart-container-section" className="dsc-container">
@@ -25,9 +34,9 @@ const Cart = () => {
                                             <div className="dsc-cart-item-description">
                                                 <h3>{item.name}</h3>
                                                 <div className="dsc-cart-item-quantity-container">
-                                                    <div className="dsc-cart-item-quantity-btn">-</div>
+                                                    <div onClick={() => handleDecreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">-</div>
                                                     <p>{item.quantity}</p>
-                                                    <div className="dsc-cart-item-quantity-btn">+</div>
+                                                    <div onClick={() => handleIncreaseItem(item.productId)} className="dsc-cart-item-quantity-btn">+</div>
                                                 </div>
                                             </div>
                                         </div>
