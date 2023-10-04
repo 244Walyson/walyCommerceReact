@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import cartIcon from '../../assets/cart.svg'
 import './styles.css'
+import CartIcon from '../CartIcon'
 
 const HeaderClient = () => {
   return (
@@ -10,7 +10,7 @@ const HeaderClient = () => {
         <div className="dsc-navbar-right">
           <div className="dsc-menu-items-container">
             <div className="dsc-menu-item">
-              <Link to={"/cart"}><img src={cartIcon} alt="Carrinho de compras" /></Link>
+              <Link to={"/cart"}><CartIcon></CartIcon></Link>
             </div>
           </div>
           <Link to={"/login"}>Entrar</Link>

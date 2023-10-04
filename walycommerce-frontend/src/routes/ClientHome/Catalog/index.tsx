@@ -20,9 +20,14 @@ const Catalog = () => {
 
   useEffect(() => {
    findPageRequest(QueryParams.page, QueryParams.name)
-    .then(response =>{
+    .then(response => {
       const nextPage = response.data.content
+      if(product){
       setProducts(product?.concat(nextPage))
+      }
+      else{
+      setProducts(response.data.content)
+      }
       setIsLastPage(response.data.last)
     })
   }, [QueryParams])

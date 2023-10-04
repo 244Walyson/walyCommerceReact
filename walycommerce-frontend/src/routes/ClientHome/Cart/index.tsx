@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom'
 import { OrderDTO } from '../../../models/Order'
 import * as cartService from '../../../services/cartService'
 import './styles.css'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { ContextCartCount } from '../../../utils/context-cart'
 
 
 const Cart = () => {
     const [cart, setCart] = useState<OrderDTO>(cartService.getCart())
-    console.log(cart)
+    const { setContextCartCount } = useContext(ContextCartCount)
+
     const handleIncreaseItem = (productId: number) => {
         cartService.increaseItem(productId)
         setCart(cartService.getCart())
@@ -15,7 +17,9 @@ const Cart = () => {
 
     const handleDecreaseItem = (productId: number) => {
         cartService.decreaseItem(productId)
-        setCart(cartService.getCart())
+        const cart = cartService.getCart()
+        setCart(cart)
+        setContextCartCount(cart.items.length)
     }
     return (
         <main>
