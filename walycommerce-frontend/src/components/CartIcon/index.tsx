@@ -6,11 +6,11 @@ import { ContextCartCount } from '../../utils/context-cart'
 const CartIcon = () => {
 
     const {contextCartCount} = useContext(ContextCartCount)
-    console.log(contextCartCount)
-  return (
+
+    return (
     <div className="cart-icon">
         <img src={cartIcon} alt="Carrinho de compras" />
-        <div className="cart-count">{contextCartCount}</div>
+        {contextCartCount > 0 ? <div className="cart-count">{contextCartCount}</div> : <></>}
     </div>
   )
 }
