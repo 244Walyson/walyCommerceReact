@@ -6,7 +6,9 @@ import NotFound from './components/NotFound'
 import Cart from './routes/ClientHome/Cart'
 import { useState } from 'react'
 import { ContextCartCount } from './utils/context-cart'
-import Login from './routes/Login'
+import Login from './routes/ClientHome/Login'
+import Admin from './routes/Admin'
+import AdminHome from './routes/Admin/AdminHome'
 
 function App() {
 
@@ -23,6 +25,9 @@ function App() {
             <Route path='product-details/:productId' element={<ProductDetails></ProductDetails>}></Route>
             <Route path='*' element={<NotFound></NotFound>}></Route>
             <Route path='/login' element={<Login></Login>}></Route>
+          </Route>
+          <Route path='/admin/' element={<Admin></Admin>}>
+            <Route index element={<AdminHome></AdminHome>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './styles.css'
-import { CredentialsDTO } from '../../models/auth'
-import * as authService from '../../services/auth-service'
+import { CredentialsDTO } from '../../../models/auth'
+import * as authService from '../../../services/auth-service'
 
 const Login = () => {
 

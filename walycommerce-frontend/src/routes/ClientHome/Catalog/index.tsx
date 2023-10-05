@@ -37,7 +37,6 @@ const Catalog = () => {
   }
 
   const handleSearch = (value: string) => {
-    console.log(value)
     setProducts([])
     setQueryParams({...QueryParams, name: value, page: 0})
   }
