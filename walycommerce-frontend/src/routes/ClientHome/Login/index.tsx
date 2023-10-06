@@ -12,8 +12,6 @@ const Login = () => {
         authService.loginRequest(formData).then(response => {
             console.log(response.data)
             authService.saveAccesToken(response.data.access_token)
-        }).catch(error => {
-            console.log("erro login", error)
         })
     }
     const handleInputChange = (e) => {
