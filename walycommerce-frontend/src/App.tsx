@@ -29,7 +29,7 @@ function App() {
             <Route path='*' element={<NotFound></NotFound>}></Route>
             <Route path='/login' element={<Login></Login>}></Route>
           </Route>
-          <Route path='/admin/' element={<PrivateRoute><Admin/></PrivateRoute>}>
+          <Route path='/admin/' element={<PrivateRoute roles={["ROLE_ADMIN"]}><Admin/></PrivateRoute>}>
             <Route index element={<AdminHome/>}></Route>
           </Route>
         </Routes>
