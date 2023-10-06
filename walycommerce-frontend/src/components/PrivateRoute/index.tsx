@@ -1,6 +1,5 @@
-import { isAuthenticated } from '../../services/auth-service';
+import { hasAnyRoles, isAuthenticated } from '../../services/auth-service';
 import { Navigate } from 'react-router-dom';
-import Login from '../../routes/ClientHome/Login';
 
 type props = {
     children: JSX.Element;
@@ -8,7 +7,7 @@ type props = {
 
 const PrivateRoute = ({children}: props) => {
   
-    if(!isAuthenticated()){
+    if(!isAuthenticated() || !hasAnyRoles(["ROLE_ADMIN"])){
         return <Navigate to={"/login"}></Navigate>
     }
 

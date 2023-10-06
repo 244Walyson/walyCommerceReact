@@ -1,5 +1,5 @@
 import QueryString from "qs";
-import { AccessTokenPayloadDTO, CredentialsDTO } from "../models/auth";
+import { AccessTokenPayloadDTO, CredentialsDTO, RoleEnum } from "../models/auth";
 import { CLIENT_ID, CLIENT_SECRET } from "../utils/system";
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/requests";
@@ -48,6 +48,19 @@ export function getAccessTokenPaylod(): AccessTokenPayloadDTO | undefined {
     }
 }
 export function isAuthenticated(): boolean {
-    let tokenPaylod = getAccessTokenPaylod();
+    const tokenPaylod = getAccessTokenPaylod();
     return tokenPaylod && tokenPaylod.exp  * 1000 > Date.now() ? true : false; 
+}
+
+export function hasAnyRoles(roles: RoleEnum[]): boolean{
+    if(roles.length === 0){
+        return true;
+    }
+
+    const tokenPaylod = getAccessTokenPaylod();
+
+    if(tokenPaylod !== undefined) {
+        return roles.some(role => tokenPaylod.authorities.includes(role))
+    }
+    return false;
 }
