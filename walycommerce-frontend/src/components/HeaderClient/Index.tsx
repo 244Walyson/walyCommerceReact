@@ -5,6 +5,7 @@ import iconAdmin from '../../assets/admin.svg'
 import { hasAnyRoles } from '../../services/auth-service'
 import { useContext } from 'react'
 import { ContextToken } from '../../utils/context-token'
+import LoggedUser from '../LoggedUser'
 
 const HeaderClient = () => {
 
@@ -30,7 +31,7 @@ const HeaderClient = () => {
               <Link to={"/cart"}><CartIcon></CartIcon></Link>
             </div>
           </div>
-          <Link to={"/login"}>Entrar</Link>
+          <LoggedUser></LoggedUser>
         </div>
       </nav>
     </header>
