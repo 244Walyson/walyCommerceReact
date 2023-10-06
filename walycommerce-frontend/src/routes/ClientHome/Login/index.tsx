@@ -1,17 +1,22 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './styles.css'
 import { CredentialsDTO } from '../../../models/auth'
 import * as authService from '../../../services/auth-service'
+import { useNavigate } from 'react-router-dom'
+import { ContextToken } from '../../../utils/context-token'
 
 const Login = () => {
 
     const [formData, setFormData] = useState<CredentialsDTO>({username: "", password: ""})
+    const navigate = useNavigate()
+    const {setContextTokenPayload} = useContext(ContextToken)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         authService.loginRequest(formData).then(response => {
             authService.saveAccesToken(response.data.access_token)
-            console.log(authService.getAccessTokenPaylod()?.username)
+            setContextTokenPayload(authService.getAccessTokenPaylod())
+            navigate("/")
         })
     }
     const handleInputChange = (e) => {
