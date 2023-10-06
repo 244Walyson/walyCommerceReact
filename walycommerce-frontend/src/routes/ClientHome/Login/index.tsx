@@ -10,8 +10,8 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         authService.loginRequest(formData).then(response => {
-            console.log(response.data)
             authService.saveAccesToken(response.data.access_token)
+            console.log(authService.getAccessTokenPaylod()?.username)
         })
     }
     const handleInputChange = (e) => {
