@@ -16,15 +16,15 @@ import { AccessTokenPayloadDTO } from './models/auth'
 import { ContextToken } from './utils/context-token'
 import { getAccessTokenPaylod, isAuthenticated } from './services/auth-service'
 import { getCart } from './services/cartService'
+import Confirmation from './routes/ClientHome/Confirmation'
 
 function App() {
 
-  const [contextCartCount, setContextCartCount] = useState<number>()
+  const [contextCartCount, setContextCartCount] = useState<number>(0)
   const [contextTokenPayload, setContextTokenPayload] = useState<AccessTokenPayloadDTO>()
 
   useEffect(()=>{
     setContextCartCount(getCart().items.length)
-
     if(isAuthenticated()){
       setContextTokenPayload(getAccessTokenPaylod())
     }
@@ -42,6 +42,7 @@ function App() {
             <Route path='product-details/:productId' element={<ProductDetails></ProductDetails>}></Route>
             <Route path='*' element={<NotFound></NotFound>}></Route>
             <Route path='/login' element={<Login></Login>}></Route>
+            <Route path={"/confirmation/:orderId"} element={<PrivateRoute><Confirmation></Confirmation></PrivateRoute>}></Route>
           </Route>
           <Route path='/admin/' element={<PrivateRoute roles={["ROLE_ADMIN"]}><Admin/></PrivateRoute>}>
             <Route index element={<AdminHome/>}></Route>

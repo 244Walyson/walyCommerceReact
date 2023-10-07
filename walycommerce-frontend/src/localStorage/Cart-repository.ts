@@ -12,11 +12,11 @@ export function get(): OrderDTO{
     const obj = JSON.parse(str)
     const cart = new OrderDTO()
     obj.items.forEach((x: OrderItemDTO) => {
-        cart.items.push(new OrderItemDTO(x.productId, x.quantity, x.name, x.price, x.imgUrl))
+        cart.items.push(new OrderItemDTO(x.productId, x.quantity, x.name, x.price, x.imgUrl, 0))
     });
     return cart
 }
 
 export function clear(){
-    localStorage.setItem(CART_KEY, '"items": []')
+    localStorage.setItem(CART_KEY, '{"items": []}')
 }

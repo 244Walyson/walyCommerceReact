@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { OrderDTO } from '../../../models/Order'
 import * as cartService from '../../../services/cartService'
 import './styles.css'
 import { useState, useContext } from 'react'
 import { ContextCartCount } from '../../../utils/context-cart'
+import { placeOrderRequest } from '../../../services/order-service'
 
 
 const Cart = () => {
     const [cart, setCart] = useState<OrderDTO>(cartService.getCart())
     const { setContextCartCount } = useContext(ContextCartCount)
+    const navigate = useNavigate()
 
     const handleIncreaseItem = (productId: number) => {
         cartService.increaseItem(productId)
@@ -20,6 +22,15 @@ const Cart = () => {
         const cart = cartService.getCart()
         setCart(cart)
         setContextCartCount(cart.items.length)
+    }
+
+    const handlePlaceOrderClick = () => {
+        placeOrderRequest(cart)
+        .then(response => {
+            cartService.clearCart()
+            setContextCartCount(0)
+            navigate(`/confirmation/${response.data.id}`)
+        })
     }
     return (
         <main>
@@ -56,7 +67,7 @@ const Cart = () => {
                         </>
                 }
                 <div className="dsc-btn-page-container">
-                    <div className="dsc-btn dsc-btn-blue">
+                    <div onClick={handlePlaceOrderClick} className="dsc-btn dsc-btn-blue">
                         Finalizar pedido
                     </div>
                     <Link to={"/"}>
