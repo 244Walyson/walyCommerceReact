@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import ProductDetails from './routes/ClientHome/ProductDetails'
 import ClientHome from './routes/ClientHome'
 import Catalog from './routes/ClientHome/Catalog'
@@ -17,6 +17,8 @@ import { ContextToken } from './utils/context-token'
 import { getAccessTokenPaylod, isAuthenticated } from './services/auth-service'
 import { getCart } from './services/cartService'
 import Confirmation from './routes/ClientHome/Confirmation'
+import ProductsList from './routes/Admin/ProductsList'
+import ProductsForm from './routes/Admin/ProductForm'
 
 function App() {
 
@@ -36,7 +38,7 @@ function App() {
       <HistoryRouter history={history}>
         <Routes>
           <Route path='/' element={<ClientHome></ClientHome>}>
-            <Route path='/' element={<Catalog></Catalog>}></Route>
+            <Route index element={<Catalog></Catalog>}></Route>
             <Route path='/catalog' element={<Catalog></Catalog>}></Route>
             <Route path='/cart' element={<Cart></Cart>}></Route>
             <Route path='product-details/:productId' element={<ProductDetails></ProductDetails>}></Route>
@@ -45,7 +47,10 @@ function App() {
             <Route path={"/confirmation/:orderId"} element={<PrivateRoute><Confirmation></Confirmation></PrivateRoute>}></Route>
           </Route>
           <Route path='/admin/' element={<PrivateRoute roles={["ROLE_ADMIN"]}><Admin/></PrivateRoute>}>
-            <Route index element={<AdminHome/>}></Route>
+            <Route index element={<Navigate to={"home"}></Navigate>}></Route>
+            <Route path='home' element={<AdminHome />}></Route>
+            <Route path='products' element={<ProductsList></ProductsList>}></Route>
+            <Route path='products/:productId' element={<ProductsForm></ProductsForm>}></Route>
           </Route>
         </Routes>
       </HistoryRouter>
