@@ -4,6 +4,8 @@ import './styles.css'
 import { useEffect, useState } from 'react'
 import { findPageRequest } from '../../../services/productService'
 import { ProductDTO } from '../../../models/ProductModel'
+import SearchBar from '../../../components/SearchBar'
+import ButtonNextPage from '../../../components/ButtonNextPage'
 
 type QueryParams = {
     page: number;
@@ -14,10 +16,10 @@ const ProductsList = () => {
 
     const [queryParams, setQueryParams] = useState<QueryParams>({page: 0, name: ""})
     const [products, setProducts] = useState<ProductDTO[]>()
-    const [isLastPage, setIsLastPage] = useState(false)
+    const [isLastPage, setIsLastPage] = useState(true)
     
     useEffect(()=>{
-        findPageRequest(queryParams.page, queryParams.name)
+        findPageRequest(queryParams.page, queryParams.name, 10)
         .then(response => {
             const nextPage = response.data.content
             if(products){
@@ -30,7 +32,15 @@ const ProductsList = () => {
         })
     }, [queryParams])
 
-    console.log(products)
+    const handleSearch = (searchValue: string) => {
+        setProducts([])
+        setQueryParams({...queryParams, name: searchValue})
+    }
+    
+    const onSetNextPage = () => {
+        setQueryParams({...queryParams, page: (queryParams.page + 1)})
+    }
+
   return (
     <main>
     <section id="product-listing-section" className="dsc-container">
@@ -40,11 +50,7 @@ const ProductsList = () => {
         <div className="dsc-btn dsc-btn-white">Novo</div>
       </div>
 
-      <form className="dsc-search-bar">
-        <button type="submit">🔎︎</button>
-        <input type="text" placeholder="Nome do produto" />
-        <button type="reset">🗙</button>
-      </form>
+      <SearchBar onsearchValue={(query) => handleSearch(query)}></SearchBar>
 
       <table className="dsc-table dsc-mb20 dsc-mt20">
         <thead>
@@ -60,7 +66,7 @@ const ProductsList = () => {
         <tbody>
           {products && 
             products.map(item => (
-            <tr>
+            <tr key={item.id}>
             <td className="dsc-tb576">{item.id}</td>
             <td><img className="dsc-product-listing-image" src={item.imgUrl} alt={item.name}/></td>
             <td className="dsc-tb768">R$ {item.price.toFixed(2)}</td>
@@ -72,7 +78,7 @@ const ProductsList = () => {
         </tbody>
       </table>
 
-      {isLastPage && <div className="dsc-btn-next-page">Carregar mais</div>}
+      {isLastPage && <div onClick={onSetNextPage}><ButtonNextPage></ButtonNextPage></div>}
     </section>
   </main>
   )
