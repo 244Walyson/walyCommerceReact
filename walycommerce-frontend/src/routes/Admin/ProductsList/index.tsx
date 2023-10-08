@@ -83,7 +83,7 @@ const ProductsList = () => {
             <td  className="dsc-txt-left">{item.name}</td>
             <td ><img className="dsc-product-listing-btn" src={editIcon} alt="Editar"/></td>
             <td ><img onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
-          </tr>
+            </tr>
           ))}
         </tbody>
       </table>

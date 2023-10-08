@@ -10,10 +10,10 @@ const ModalAlert = ({message, onDialogClose}: props) => {
   
 
     return (
-    <div className="dsc-dialog-backgroud">
-        <div className='dsc-dialog-box'>
+    <div className="dsc-dialog-backgroud" onClick={() => onDialogClose()}>
+        <div className='dsc-dialog-box' onClick={(e) => e.stopPropagation()}>
             <h2>{message}</h2>
-           <div onClick={() => onDialogClose()}> <ButtonPrimary text='Ok'></ButtonPrimary></div>
+           <div onClick={() => onDialogClose()} className='button-close-box'> <ButtonPrimary text='Ok'></ButtonPrimary></div>
         </div>
     </div>
   )
