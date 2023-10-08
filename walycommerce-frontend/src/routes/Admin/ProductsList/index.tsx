@@ -6,6 +6,7 @@ import { findPageRequest } from '../../../services/productService'
 import { ProductDTO } from '../../../models/ProductModel'
 import SearchBar from '../../../components/SearchBar'
 import ButtonNextPage from '../../../components/ButtonNextPage'
+import ModalAlert from '../../../components/ModalAlert'
 
 type QueryParams = {
     page: number;
@@ -17,7 +18,8 @@ const ProductsList = () => {
     const [queryParams, setQueryParams] = useState<QueryParams>({page: 0, name: ""})
     const [products, setProducts] = useState<ProductDTO[]>()
     const [isLastPage, setIsLastPage] = useState(true)
-    
+    const [dialogInfoData, setDialogInfoData] = useState({visible: false, message: "Sucesso"})
+
     useEffect(()=>{
         findPageRequest(queryParams.page, queryParams.name, 10)
         .then(response => {
@@ -39,6 +41,14 @@ const ProductsList = () => {
     
     const onSetNextPage = () => {
         setQueryParams({...queryParams, page: (queryParams.page + 1)})
+    }
+
+    const handleClickDeleteClose = () => {
+        setDialogInfoData({...dialogInfoData, visible: false})
+    }
+
+    const handleDeleteClick = () => {
+        setDialogInfoData({...dialogInfoData, visible: true})
     }
 
   return (
@@ -69,10 +79,10 @@ const ProductsList = () => {
             <tr key={item.id}>
             <td className="dsc-tb576">{item.id}</td>
             <td><img className="dsc-product-listing-image" src={item.imgUrl} alt={item.name}/></td>
-            <td className="dsc-tb768">R$ {item.price.toFixed(2)}</td>
-            <td className="dsc-txt-left">{item.name}</td>
-            <td><img className="dsc-product-listing-btn" src={editIcon} alt="Editar"/></td>
-            <td><img className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
+            <td  className="dsc-tb768">R$ {item.price.toFixed(2)}</td>
+            <td  className="dsc-txt-left">{item.name}</td>
+            <td ><img className="dsc-product-listing-btn" src={editIcon} alt="Editar"/></td>
+            <td ><img onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar"/></td>
           </tr>
           ))}
         </tbody>
@@ -80,6 +90,10 @@ const ProductsList = () => {
 
       {isLastPage && <div onClick={onSetNextPage}><ButtonNextPage></ButtonNextPage></div>}
     </section>
+    {
+        dialogInfoData.visible &&
+        <ModalAlert message={dialogInfoData.message} onDialogClose={handleClickDeleteClose}></ModalAlert>
+    }
   </main>
   )
 }
