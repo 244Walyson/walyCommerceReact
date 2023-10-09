@@ -7,6 +7,7 @@ import { ProductDTO } from '../../../models/ProductModel'
 import SearchBar from '../../../components/SearchBar'
 import ButtonNextPage from '../../../components/ButtonNextPage'
 import ModalAlert from '../../../components/ModalAlert'
+import ModalConfirmation from '../../../components/ModalConfirmation'
 
 type QueryParams = {
     page: number;
@@ -17,8 +18,10 @@ const ProductsList = () => {
 
     const [queryParams, setQueryParams] = useState<QueryParams>({page: 0, name: ""})
     const [products, setProducts] = useState<ProductDTO[]>()
-    const [isLastPage, setIsLastPage] = useState(true)
+    const [isLastPage, setIsLastPage] = useState(false)
     const [dialogInfoData, setDialogInfoData] = useState({visible: false, message: "Sucesso"})
+    const [dialogConfirmationData, setDialogConfirmationData] = useState({visible: false, confirm: false,message: "Sucesso"})
+
 
     useEffect(()=>{
         findPageRequest(queryParams.page, queryParams.name, 10)
@@ -31,6 +34,7 @@ const ProductsList = () => {
                 setProducts(nextPage)
             }
             setIsLastPage(response.data.last)
+            console.log(nextPage)
         })
     }, [queryParams])
 
@@ -45,11 +49,15 @@ const ProductsList = () => {
 
     const handleClickDeleteClose = () => {
         setDialogInfoData({...dialogInfoData, visible: false})
-    }
+        setDialogConfirmationData({...dialogConfirmationData, visible: false})
+      }
 
     const handleDeleteClick = () => {
         setDialogInfoData({...dialogInfoData, visible: true})
+        setDialogConfirmationData({...dialogConfirmationData, visible: true})
+
     }
+
 
   return (
     <main>
@@ -88,11 +96,12 @@ const ProductsList = () => {
         </tbody>
       </table>
 
-      {isLastPage && <div onClick={onSetNextPage}><ButtonNextPage></ButtonNextPage></div>}
+      {!isLastPage && <div onClick={onSetNextPage}><ButtonNextPage></ButtonNextPage></div>}
     </section>
     {
-        dialogInfoData.visible &&
+        dialogConfirmationData.visible &&
         <ModalAlert message={dialogInfoData.message} onDialogClose={handleClickDeleteClose}></ModalAlert>
+        // <ModalConfirmation message='deseja realmente exculir esse poduto?' onDialogClose={handleClickDeleteClose}></ModalConfirmation>
     }
   </main>
   )
