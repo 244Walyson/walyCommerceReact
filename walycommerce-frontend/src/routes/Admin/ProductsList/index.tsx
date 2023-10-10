@@ -2,7 +2,7 @@ import editIcon from '../../../assets/edit.svg'
 import deleteIcon from '../../../assets/delete.svg'
 import './styles.css'
 import { useEffect, useState } from 'react'
-import { findPageRequest } from '../../../services/productService'
+import { deleteById, findPageRequest } from '../../../services/productService'
 import { ProductDTO } from '../../../models/ProductModel'
 import SearchBar from '../../../components/SearchBar'
 import ButtonNextPage from '../../../components/ButtonNextPage'
@@ -34,7 +34,6 @@ const ProductsList = () => {
           setProducts(nextPage)
         }
         setIsLastPage(response.data.last)
-        console.log(nextPage)
       })
   }, [queryParams])
 
@@ -62,8 +61,16 @@ const ProductsList = () => {
 
   const handleConfirmationDelete = (confirm: boolean) => {
     if (confirm) {
-      setDialogInfoData({ message: "sucess", visible: true })
-      console.log(dialogConfirmationData)
+      deleteById(dialogConfirmationData.id)
+      .then(response => {
+        if(response.status == 204){
+          setProducts([])
+          setQueryParams({...queryParams, page: 0})
+          setDialogInfoData({ message: "sucesso", visible: true })
+        }
+      }).catch(() => {
+          setDialogInfoData({ message: "falha ao deletar produto, o mesmo ja esta em um pedido", visible: true })
+      })
     }
   }
 
