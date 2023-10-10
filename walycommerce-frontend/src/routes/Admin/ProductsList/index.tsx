@@ -20,7 +20,7 @@ const ProductsList = () => {
   const [products, setProducts] = useState<ProductDTO[]>()
   const [isLastPage, setIsLastPage] = useState(false)
   const [dialogInfoData, setDialogInfoData] = useState({ visible: false, message: "Sucesso" })
-  const [dialogConfirmationData, setDialogConfirmationData] = useState({ visible: false, message: "Sucesso" })
+  const [dialogConfirmationData, setDialogConfirmationData] = useState({ visible: false, id: 0,message: "Sucesso" })
 
 
   useEffect(() => {
@@ -55,15 +55,15 @@ const ProductsList = () => {
     setDialogInfoData({ ...dialogInfoData, visible: false })
   }
 
-  const handleDeleteClick = () => {
-    setDialogConfirmationData({ ...dialogConfirmationData, visible: true })
+  const handleDeleteClick = (productId: number) => {
+    setDialogConfirmationData({ ...dialogConfirmationData,id: productId, visible: true })
 
   }
 
   const handleConfirmationDelete = (confirm: boolean) => {
     if (confirm) {
-      setDialogInfoData({ ...dialogInfoData, visible: true })
-      console.log("delete")
+      setDialogInfoData({ message: "sucess", visible: true })
+      console.log(dialogConfirmationData)
     }
   }
 
@@ -98,7 +98,7 @@ const ProductsList = () => {
                   <td className="dsc-tb768">R$ {item.price.toFixed(2)}</td>
                   <td className="dsc-txt-left">{item.name}</td>
                   <td ><img className="dsc-product-listing-btn" src={editIcon} alt="Editar" /></td>
-                  <td ><img onClick={handleDeleteClick} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar" /></td>
+                  <td ><img onClick={() => handleDeleteClick(item.id)} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
           </tbody>
@@ -108,7 +108,7 @@ const ProductsList = () => {
       </section>
       {
         dialogConfirmationData.visible &&
-        <ModalConfirmation message='deseja realmente exculir esse poduto?' onDialogClose={handleClickDeleteClose} onConfirmationDialog={handleConfirmationDelete}></ModalConfirmation>
+        <ModalConfirmation id={dialogConfirmationData.id} message='deseja realmente exculir esse poduto?' onDialogClose={handleClickDeleteClose} onConfirmationDialog={handleConfirmationDelete}></ModalConfirmation>
       }
       {
         dialogInfoData.visible &&
