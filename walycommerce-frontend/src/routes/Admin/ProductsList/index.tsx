@@ -68,8 +68,8 @@ const ProductsList = () => {
           setQueryParams({...queryParams, page: 0})
           setDialogInfoData({ message: "sucesso", visible: true })
         }
-      }).catch(() => {
-          setDialogInfoData({ message: "falha ao deletar produto, o mesmo ja esta em um pedido", visible: true })
+      }).catch(error => {
+          setDialogInfoData({ message: error.response.data.error, visible: true })
       })
     }
   }
