@@ -8,6 +8,8 @@ import SearchBar from '../../../components/SearchBar'
 import ButtonNextPage from '../../../components/ButtonNextPage'
 import ModalConfirmation from '../../../components/ModalConfirmation'
 import ModalAlert from '../../../components/ModalAlert'
+import ButtonInverse from '../../../components/ButtonInverse'
+import { useNavigate } from 'react-router-dom'
 
 type QueryParams = {
   page: number;
@@ -21,7 +23,7 @@ const ProductsList = () => {
   const [isLastPage, setIsLastPage] = useState(false)
   const [dialogInfoData, setDialogInfoData] = useState({ visible: false, message: "Sucesso" })
   const [dialogConfirmationData, setDialogConfirmationData] = useState({ visible: false, id: 0,message: "Sucesso" })
-
+  const navigate = useNavigate()
 
   useEffect(() => {
     findPageRequest(queryParams.page, queryParams.name, 10, "asc")
@@ -74,13 +76,17 @@ const ProductsList = () => {
     }
   }
 
+  const hanldeNewProductClick = () => {
+    navigate('/admin/products/create')
+  }
+
   return (
     <main>
       <section id="product-listing-section" className="dsc-container">
         <h2 className="dsc-section-title dsc-mb20">Cadastro de produtos</h2>
 
         <div className="dsc-btn-page-container dsc-mb20">
-          <div className="dsc-btn dsc-btn-white">Novo</div>
+          <div onClick={hanldeNewProductClick}><ButtonInverse text='Novo'></ButtonInverse></div>
         </div>
 
         <SearchBar onsearchValue={(query) => handleSearch(query)}></SearchBar>

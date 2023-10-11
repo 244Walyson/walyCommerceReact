@@ -51,6 +51,7 @@ function App() {
             <Route path='home' element={<AdminHome />}></Route>
             <Route path='products' element={<ProductsList></ProductsList>}></Route>
             <Route path='products/:productId' element={<ProductsForm></ProductsForm>}></Route>
+            <Route path='products/create' element={<ProductsForm></ProductsForm>}></Route>
           </Route>
         </Routes>
       </HistoryRouter>
