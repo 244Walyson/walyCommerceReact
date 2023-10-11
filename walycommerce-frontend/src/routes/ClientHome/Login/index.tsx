@@ -3,6 +3,7 @@ import './styles.css'
 import * as authService from '../../../services/auth-service'
 import { useNavigate } from 'react-router-dom'
 import { ContextToken } from '../../../utils/context-token'
+import FormImput from '../../../components/FormInput'
 
 const Login = () => {
 
@@ -51,11 +52,11 @@ const Login = () => {
             <h2>Login</h2>
             <div className="dsc-form-controls-container">
               <div>
-                <input onChange={handleInputChange} name={formData.username.name} value={formData.username.value} className="dsc-form-control dsc-input-error" type={formData.username.type} placeholder={formData.username.placeholder} />
+                <FormImput {...formData.username } className="dsc-form-control" onChange={ handleInputChange}></FormImput>
                 <div className="dsc-form-error">Campo obrigatório</div>
               </div>
               <div>
-                <input onChange={handleInputChange} name={formData.password.name} value={formData.password.value} className="dsc-form-control" type={formData.password.type} placeholder={formData.password.placeholder} />
+                <FormImput {...formData.password} onChange={handleInputChange} className="dsc-form-control" />
               </div>
             </div>
 
