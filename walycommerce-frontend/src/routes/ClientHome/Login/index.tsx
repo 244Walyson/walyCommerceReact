@@ -4,7 +4,7 @@ import * as authService from '../../../services/auth-service'
 import { useNavigate } from 'react-router-dom'
 import { ContextToken } from '../../../utils/context-token'
 import FormImput from '../../../components/FormInput'
-import { update } from '../../../utils/forms'
+import { toValues, update } from '../../../utils/forms'
 
 const Login = () => {
 
@@ -33,16 +33,14 @@ const Login = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        authService.loginRequest({username: formData.username.value, password: formData.password.value}).then(response => {
+        authService.loginRequest(toValues(formData)).then(response => {
             authService.saveAccesToken(response.data.access_token)
             setContextTokenPayload(authService.getAccessTokenPaylod())
             navigate("/")
         })
     }
     const handleInputChange = (e) => {
-        const value = e.target.value
-        const name = e.target.name
-        setFormData(update(formData, name, value))
+        setFormData(update(formData, e.target.name, e.target.value))
       }
 
   return (
