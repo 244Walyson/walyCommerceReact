@@ -10,3 +10,11 @@ export function toValues(inputs: any){
 
     return data;
 }
+
+export function updateAll(input: any, newValues: any){
+    const data: any = {}
+    for(const name in input){
+        data[name] = {...input[name], value: newValues[name]}
+    }
+    return data;
+}

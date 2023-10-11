@@ -1,13 +1,18 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { update } from '../../../utils/forms'
-import { useState } from 'react'
+import { update, updateAll } from '../../../utils/forms'
+import { useState, useEffect } from 'react'
+import { findById } from '../../../services/productService'
 
 const ProductsForm = () => {
 
   const navigate = useNavigate()
+  const params = useParams()
+
+  const isEditing = params.productId !== 'create';
+
   const [formData, setFormData] = useState<any>({
     name: {
       value: "",
@@ -23,13 +28,13 @@ const ProductsForm = () => {
       type: "number",
       placeholder: "preço",
     },
-    image: {
+    imgUrl: {
       value: "",
       id: "image",
       name: "image",
       type: "text",
       placeholder: "imagem",
-    }
+    },
   })
 
   const hanldeCancelCreateClick = () => {
@@ -41,7 +46,16 @@ const ProductsForm = () => {
     setFormData(update(formData, e.target.name, e.target.value ))
   }
 
-  console.log(formData)
+  useEffect(() => {
+    if(isEditing){
+      findById(Number(params.productId))
+      .then(response => {
+        setFormData(updateAll(formData, response.data))
+      })
+    }
+  }, [])
+  
+
   return (
     <main>
       <section id="product-form-section" className="dsc-container">
@@ -56,7 +70,7 @@ const ProductsForm = () => {
                 <FormImput onChange={handleInputChange} {...formData.price} className="dsc-form-control" />
               </div>
               <div>
-                <FormImput onChange={handleInputChange} {...formData.image} className="dsc-form-control" />
+                <FormImput onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
               </div>
               <div>
                 <select className="dsc-form-control dsc-select" required>
