@@ -4,6 +4,7 @@ import * as authService from '../../../services/auth-service'
 import { useNavigate } from 'react-router-dom'
 import { ContextToken } from '../../../utils/context-token'
 import FormImput from '../../../components/FormInput'
+import { update } from '../../../utils/forms'
 
 const Login = () => {
 
@@ -41,7 +42,7 @@ const Login = () => {
     const handleInputChange = (e) => {
         const value = e.target.value
         const name = e.target.name
-        setFormData({...formData, [name]: {...formData[name], value: value}})
+        setFormData(update(formData, name, value))
       }
 
   return (
