@@ -24,7 +24,7 @@ const ProductsList = () => {
 
 
   useEffect(() => {
-    findPageRequest(queryParams.page, queryParams.name, 10)
+    findPageRequest(queryParams.page, queryParams.name, 10, "asc")
       .then(response => {
         const nextPage = response.data.content
         if (products) {
