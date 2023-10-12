@@ -2,10 +2,10 @@ import React from 'react'
 
 const FormImput = (props: any) => {
 
-    const { validation,  ...inputProps } = props;
+    const { invalid, validation,  ...inputProps } = props;
 
   return (
-    <input { ...inputProps }></input>
+    <input { ...inputProps } data-invalid={invalid}></input>
   )
 }
 

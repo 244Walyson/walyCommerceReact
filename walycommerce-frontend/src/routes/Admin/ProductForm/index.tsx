@@ -22,7 +22,7 @@ const ProductsForm = () => {
       placeholder: "nome do produto",
     },
     price: {
-      value: 200,
+      value: "",
       id: "price",
       name: "price",
       type: "number",
@@ -31,7 +31,7 @@ const ProductsForm = () => {
         return value > 0;
       },
       message: "Favor informar um valor positivo",
-      invalid: false
+      invalid: ""
     },
     imgUrl: {
       value: "",
@@ -48,7 +48,9 @@ const ProductsForm = () => {
   }
 
   const handleInputChange = (e) => {
-    setFormData(update(formData, e.target.name, e.target.value ))
+    const dataUpdate = update(formData, e.target.name, e.target.value)
+    const datavalidated = validate(dataUpdate, e.target.name)
+    setFormData(datavalidated)
   }
 
   useEffect(() => {
@@ -58,9 +60,6 @@ const ProductsForm = () => {
         setFormData(updateAll(formData, response.data))
       })
     }
-
-    const obj = validate(formData, 'price')
-    console.log(obj)
   }, [])
   
 
@@ -73,9 +72,11 @@ const ProductsForm = () => {
             <div className="dsc-form-controls-container">
               <div>
                 <FormImput onChange={handleInputChange} {...formData.name} className="dsc-form-control" />
+                <div className='dsc-form-error'>{formData.name.message}</div>
               </div>
               <div>
                 <FormImput onChange={handleInputChange} {...formData.price} className="dsc-form-control" />
+                <div className='dsc-form-error'>{formData.price.message}</div>
               </div>
               <div>
                 <FormImput onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
