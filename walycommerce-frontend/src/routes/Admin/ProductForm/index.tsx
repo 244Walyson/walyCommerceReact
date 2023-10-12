@@ -5,6 +5,7 @@ import FormImput from '../../../components/FormInput'
 import { dirtyAndValidate, updateAll, updateAndValidate, validate } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
 import { findById } from '../../../services/productService'
+import FormTextArea from '../../../components/FormTextArea'
 
 const ProductsForm = () => {
 
@@ -20,7 +21,7 @@ const ProductsForm = () => {
       name: "name",
       type: "text",
       placeholder: "nome do produto",
-      validation: function(value: string){
+      validation: function (value: string) {
         return /^.{3,80}$/.test(value)
       },
       message: "o nome deve conter entre 3 e 80 caracteres"
@@ -31,7 +32,7 @@ const ProductsForm = () => {
       name: "price",
       type: "number",
       placeholder: "preço",
-      validation: function(value: number){
+      validation: function (value: number) {
         return value > 0;
       },
       message: "Favor informar um valor positivo",
@@ -43,7 +44,18 @@ const ProductsForm = () => {
       type: "text",
       placeholder: "imagem",
     },
-  })
+    description: {
+      value: "",
+      id: "description",
+      name: "description",
+      type: "text",
+      placeholder: "Descrição",
+      validation: function (value: string) {
+        return /^.{10,}$/.test(value)
+      },
+      message: "A descrição deve conter pelo menos 10 caracters",
+    },
+})
 
   const hanldeCancelCreateClick = () => {
     navigate('/admin/products')
@@ -55,14 +67,14 @@ const ProductsForm = () => {
   }
 
   useEffect(() => {
-    if(isEditing){
+    if (isEditing) {
       findById(Number(params.productId))
-      .then(response => {
-        setFormData(updateAll(formData, response.data))
-      })
+        .then(response => {
+          setFormData(updateAll(formData, response.data))
+        })
     }
   }, [])
-  
+
   const handleInputTurnDirty = (name: string) => {
     setFormData(dirtyAndValidate(formData, name))
   }
@@ -93,7 +105,8 @@ const ProductsForm = () => {
                 </select>
               </div>
               <div>
-                <textarea className="dsc-form-control dsc-textarea" placeholder="Descrição"></textarea>
+                <FormTextArea onChange={handleInputChange} className="dsc-form-control dsc-textarea" onTurnDirty={handleInputTurnDirty} {...formData.description}></FormTextArea>
+                <div className='dsc-form-error'>{formData.description.message}</div>
               </div>
             </div>
 
