@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { update, updateAll, validate } from '../../../utils/forms'
+import { toDirty, update, updateAll, validate } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
 import { findById } from '../../../services/productService'
 
@@ -31,12 +31,11 @@ const ProductsForm = () => {
         return value > 0;
       },
       message: "Favor informar um valor positivo",
-      invalid: ""
     },
     imgUrl: {
       value: "",
-      id: "image",
-      name: "image",
+      id: "imgUrl",
+      name: "imgUrl",
       type: "text",
       placeholder: "imagem",
     },
@@ -62,6 +61,11 @@ const ProductsForm = () => {
     }
   }, [])
   
+  const handleInputTurnDirty = (name: string) => {
+    const newFormData = toDirty(formData, name)
+    setFormData(newFormData)
+    console.log(newFormData)
+  }
 
   return (
     <main>
@@ -71,15 +75,15 @@ const ProductsForm = () => {
             <h2>Dados do produto</h2>
             <div className="dsc-form-controls-container">
               <div>
-                <FormImput onChange={handleInputChange} {...formData.name} className="dsc-form-control" />
+                <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.name} className="dsc-form-control" />
                 <div className='dsc-form-error'>{formData.name.message}</div>
               </div>
               <div>
-                <FormImput onChange={handleInputChange} {...formData.price} className="dsc-form-control" />
+                <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.price} className="dsc-form-control" />
                 <div className='dsc-form-error'>{formData.price.message}</div>
               </div>
               <div>
-                <FormImput onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
+                <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
               </div>
               <div>
                 <select className="dsc-form-control dsc-select" required>
