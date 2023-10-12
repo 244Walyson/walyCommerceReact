@@ -4,7 +4,7 @@ import * as authService from '../../../services/auth-service'
 import { useNavigate } from 'react-router-dom'
 import { ContextToken } from '../../../utils/context-token'
 import FormImput from '../../../components/FormInput'
-import { toValues, update } from '../../../utils/forms'
+import { dirtyAndValidate, toDirty, toValues, updateAndValidate } from '../../../utils/forms'
 
 const Login = () => {
 
@@ -40,7 +40,11 @@ const Login = () => {
         })
     }
     const handleInputChange = (e) => {
-        setFormData(update(formData, e.target.name, e.target.value))
+        setFormData(updateAndValidate(formData, e.target.name, e.target.value))
+      }
+
+      const handleTurnDirty = (name: string) => {
+        setFormData(dirtyAndValidate(formData, name))
       }
 
   return (
@@ -51,11 +55,11 @@ const Login = () => {
             <h2>Login</h2>
             <div className="dsc-form-controls-container">
               <div>
-                <FormImput {...formData.username } className="dsc-form-control" onChange={ handleInputChange}></FormImput>
+                <FormImput onTurnDirty={handleTurnDirty} {...formData.username } className="dsc-form-control" onChange={ handleInputChange}></FormImput>
                 <div className="dsc-form-error">Campo obrigatório</div>
               </div>
               <div>
-                <FormImput {...formData.password} onChange={handleInputChange} className="dsc-form-control" />
+                <FormImput onTurnDirty={handleTurnDirty} {...formData.password} onChange={handleInputChange} className="dsc-form-control" />
               </div>
             </div>
 

@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { toDirty, update, updateAll, validate } from '../../../utils/forms'
+import { dirtyAndValidate, updateAll, updateAndValidate, validate } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
 import { findById } from '../../../services/productService'
 
@@ -47,9 +47,7 @@ const ProductsForm = () => {
   }
 
   const handleInputChange = (e) => {
-    const dataUpdate = update(formData, e.target.name, e.target.value)
-    const datavalidated = validate(dataUpdate, e.target.name)
-    setFormData(datavalidated)
+    setFormData(updateAndValidate(formData, e.target.name, e.target.value))
   }
 
   useEffect(() => {
@@ -62,9 +60,7 @@ const ProductsForm = () => {
   }, [])
   
   const handleInputTurnDirty = (name: string) => {
-    const newFormData = toDirty(formData, name)
-    setFormData(newFormData)
-    console.log(newFormData)
+    setFormData(dirtyAndValidate(formData, name))
   }
 
   return (
