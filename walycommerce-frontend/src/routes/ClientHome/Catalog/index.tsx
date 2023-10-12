@@ -23,7 +23,7 @@ const Catalog = () => {
     .then(response => {
       const nextPage = response.data.content
       if(product){
-      setProducts(product?.concat(nextPage))
+      setProducts(product.concat(nextPage))
       }
       else{
       setProducts(response.data.content)

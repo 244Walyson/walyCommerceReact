@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { update, updateAll } from '../../../utils/forms'
+import { update, updateAll, validate } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
 import { findById } from '../../../services/productService'
 
@@ -22,11 +22,16 @@ const ProductsForm = () => {
       placeholder: "nome do produto",
     },
     price: {
-      value: "",
+      value: 200,
       id: "price",
       name: "price",
       type: "number",
       placeholder: "preço",
+      validation: function(value: number){
+        return value > 0;
+      },
+      message: "Favor informar um valor positivo",
+      invalid: false
     },
     imgUrl: {
       value: "",
@@ -53,6 +58,9 @@ const ProductsForm = () => {
         setFormData(updateAll(formData, response.data))
       })
     }
+
+    const obj = validate(formData, 'price')
+    console.log(obj)
   }, [])
   
 

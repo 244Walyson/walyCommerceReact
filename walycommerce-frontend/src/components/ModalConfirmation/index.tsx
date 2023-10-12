@@ -3,19 +3,20 @@ import './styles.css'
 
 type prop = {
     message: string;
+    id: number;
     onDialogClose: () => void;
-    onConfirmationDialog: (bool: boolean) => void;
+    onConfirmationDialog: (bool: boolean, id: number) => void;
 }
 
-const ModalConfirmation = ({message, onDialogClose, onConfirmationDialog}: prop) => {
+const ModalConfirmation = ({message, onDialogClose, id,onConfirmationDialog}: prop) => {
    
     const handleClickCancelConfirmation = () => {
-        onConfirmationDialog(false)
+        onConfirmationDialog(false, id)
         onDialogClose()
     }
 
     const handleConfirmDialog = () => {
-        onConfirmationDialog(true)
+        onConfirmationDialog(true, id)
         onDialogClose()
     }
 
