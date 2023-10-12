@@ -20,6 +20,10 @@ const ProductsForm = () => {
       name: "name",
       type: "text",
       placeholder: "nome do produto",
+      validation: function(value: string){
+        return /^.{3,80}$/.test(value)
+      },
+      message: "o nome deve conter entre 3 e 80 caracteres"
     },
     price: {
       value: "",

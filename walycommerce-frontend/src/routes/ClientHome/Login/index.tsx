@@ -4,7 +4,7 @@ import * as authService from '../../../services/auth-service'
 import { useNavigate } from 'react-router-dom'
 import { ContextToken } from '../../../utils/context-token'
 import FormImput from '../../../components/FormInput'
-import { dirtyAndValidate, toDirty, toValues, updateAndValidate } from '../../../utils/forms'
+import { dirtyAndValidate, toValues, updateAndValidate } from '../../../utils/forms'
 
 const Login = () => {
 
@@ -26,6 +26,10 @@ const Login = () => {
     name: "password",
     type: "password",
     placeholder: "Senha",
+    validation: function(value: string){
+      return value.length > 6
+    },
+    message: "a senha deve conter no minimo 6 caracters"
     }
     })
     const navigate = useNavigate()
@@ -56,10 +60,11 @@ const Login = () => {
             <div className="dsc-form-controls-container">
               <div>
                 <FormImput onTurnDirty={handleTurnDirty} {...formData.username } className="dsc-form-control" onChange={ handleInputChange}></FormImput>
-                <div className="dsc-form-error">Campo obrigatório</div>
+                <div className="dsc-form-error">{formData.username.message}</div>
               </div>
               <div>
                 <FormImput onTurnDirty={handleTurnDirty} {...formData.password} onChange={handleInputChange} className="dsc-form-control" />
+                <div className="dsc-form-error">{formData.password.message}</div>
               </div>
             </div>
 
