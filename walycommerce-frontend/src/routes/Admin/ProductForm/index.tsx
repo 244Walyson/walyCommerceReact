@@ -2,15 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { dirtyAndValidate, updateAll, updateAndValidate, validate } from '../../../utils/forms'
+import { dirtyAndValidate, updateAll, updateAndValidate } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
-import { findById } from '../../../services/productService'
+import { findById, getCategories } from '../../../services/productService'
 import FormTextArea from '../../../components/FormTextArea'
+import { Category } from '../../../models/CategoryModel'
+import FormSelect from '../../../components/FormSelect'
 
 const ProductsForm = () => {
 
   const navigate = useNavigate()
   const params = useParams()
+  const [options, setOptions] = useState<Category[]>([])
 
   const isEditing = params.productId !== 'create';
 
@@ -55,6 +58,16 @@ const ProductsForm = () => {
       },
       message: "A descrição deve conter pelo menos 10 caracters",
     },
+    categories: {
+      value: [],
+      id: "categories",
+      name: "categories",
+      placeholder: "Categorias",
+      validation: function (value: Category[]){
+        return value.length > 0;
+      },
+      message: "selecione ao menos uma categoria"
+    }
 })
 
   const hanldeCancelCreateClick = () => {
@@ -75,8 +88,20 @@ const ProductsForm = () => {
     }
   }, [])
 
+  useEffect(() => {
+    getCategories()
+    .then(response => {
+      setOptions(response.data)
+      console.log(options)
+    })
+  }, [])
+
   const handleInputTurnDirty = (name: string) => {
     setFormData(dirtyAndValidate(formData, name))
+  }
+
+  const handleSelectForm = (obj: []) => {
+    setFormData(updateAndValidate(formData, "categories", obj));
   }
 
   return (
@@ -98,11 +123,8 @@ const ProductsForm = () => {
                 <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
               </div>
               <div>
-                <select className="dsc-form-control dsc-select" required>
-                  <option value="" disabled selected>Categorias</option>
-                  <option value="1">Valor 1</option>
-                  <option value="2">Valor 2</option>
-                </select>
+                <FormSelect className='dsc-form-control' {...formData.categories} onChange={(obj) => handleSelectForm(obj)} isMulti options={options} getOptionLabel={(obj) => obj.name} getOptionValue={(obj) => String(obj.id)} onTurnDirty={handleInputTurnDirty}></FormSelect>
+                <div className='dsc-form-error'>{formData.categories.message}</div>
               </div>
               <div>
                 <FormTextArea onChange={handleInputChange} className="dsc-form-control dsc-textarea" onTurnDirty={handleInputTurnDirty} {...formData.description}></FormTextArea>

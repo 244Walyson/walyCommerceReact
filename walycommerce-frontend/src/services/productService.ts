@@ -27,3 +27,10 @@ export function deleteById(id: number){
     }
     return requestBackend(config)
 }
+
+export function getCategories(){
+    const config = {
+        url: "/categories",
+    }
+    return requestBackend(config)
+}
