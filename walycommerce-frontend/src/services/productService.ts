@@ -34,7 +34,7 @@ export function updateProduct(id: number, product: ProductDTO){
         method: "PUT",
         url: `/products/${id}`,
         data: product,
-        withCredential: true
+        withCredentials: true
     }
     return requestBackend(config)
 }

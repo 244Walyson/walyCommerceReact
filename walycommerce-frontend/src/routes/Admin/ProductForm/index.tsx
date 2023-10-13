@@ -116,9 +116,11 @@ const ProductsForm = () => {
     else{
       if(isEditing){
         updateProduct(Number(params.productId), toValues(formData))
+        .then(() => navigate("/admin/products"))
       }
       else{
         createProduct(toValues(formData))
+        .then(() => navigate('/admin/products'))
       }
     }
     
