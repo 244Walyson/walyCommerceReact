@@ -9,6 +9,7 @@ import FormTextArea from '../../../components/FormTextArea'
 import { Category } from '../../../models/CategoryModel'
 import FormSelect from '../../../components/FormSelect'
 import { selectStyles } from '../../../utils/select'
+import MyDropzone from '../../../components/MyDropzone'
 
 const ProductsForm = () => {
 
@@ -139,11 +140,12 @@ const ProductsForm = () => {
                 <div className='dsc-form-error'>{formData.price.message}</div>
               </div>
               <div>
-                <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
-              </div>
-              <div>
                 <FormSelect styles={selectStyles} className='dsc-form-control dsc-form-select-container' {...formData.categories} onChange={(obj) => handleSelectForm(obj)} isMulti options={options} getOptionLabel={(obj) => obj.name} getOptionValue={(obj) => String(obj.id)} onTurnDirty={handleInputTurnDirty}></FormSelect>
                 <div className='dsc-form-error'>{formData.categories.message}</div>
+              </div>
+              <div>
+                <div className="image-upload-form"><MyDropzone></MyDropzone></div>
+                {/* <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" /> */}
               </div>
               <div>
                 <FormTextArea onChange={handleInputChange} className="dsc-form-control dsc-textarea" onTurnDirty={handleInputTurnDirty} {...formData.description}></FormTextArea>

@@ -29,7 +29,7 @@ const Login = () => {
       type: "password",
       placeholder: "Senha",
       validation: function (value: string) {
-        return value.length > 6
+        return value.length > 5
       },
       message: "a senha deve conter no minimo 6 caracters"
     }
