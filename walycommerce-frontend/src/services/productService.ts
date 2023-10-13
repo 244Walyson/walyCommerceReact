@@ -55,3 +55,20 @@ export function getCategories(){
     }
     return requestBackend(config)
 }
+
+export function uploadImage(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const config = {
+        method: 'POST',
+        url: '/products/image',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        data: formData, // Passando o objeto FormData como data
+        withCredentials: true,
+    };
+
+    return requestBackend(config); // Retorna a promessa da solicitação Axios
+}

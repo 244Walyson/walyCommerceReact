@@ -26,7 +26,7 @@ const ProductsList = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    findPageRequest(queryParams.page, queryParams.name, 10, "asc")
+    findPageRequest(queryParams.page, queryParams.name, 10)
       .then(response => {
         const nextPage = response.data.content
         if (products) {

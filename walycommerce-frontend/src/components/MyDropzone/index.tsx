@@ -1,17 +1,29 @@
 import React, { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import './styles.css'
+import { uploadImage } from '../../services/productService'
 
+type props = {
+  onUploadImage: (imgUrl: string) => void;
+}
 
-function MyDropzone() {
+function MyDropzone({onUploadImage}: props) {
 
   const [ImgUrl, setImgUrl] = useState()
 
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0]
+
     setImgUrl(URL.createObjectURL(file))
-    console.log(ImgUrl)
-  }, [])
+
+    uploadImage(file)
+    .then(response => {
+      onUploadImage(response.data.uri)
+      console.log(response.data.uri)
+    }).catch(error => {
+      console.log(error)
+    })
+  }, [ImgUrl])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (

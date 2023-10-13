@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { dirtyAndValidate, dirtyAndValidateAll, hasAnyInvalid, toDirtyAll, toValues, updateAll, updateAndValidate, validateAll } from '../../../utils/forms'
+import { dirtyAndValidate, dirtyAndValidateAll, hasAnyInvalid, toDirtyAll, toValues, update, updateAll, updateAndValidate, validate, validateAll } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
 import { createProduct, findById, getCategories, updateProduct } from '../../../services/productService'
 import FormTextArea from '../../../components/FormTextArea'
@@ -16,8 +16,12 @@ const ProductsForm = () => {
   const navigate = useNavigate()
   const params = useParams()
   const [options, setOptions] = useState<Category[]>([])
+  const [imgUrl, setImgUrl] = useState('')
+  const[dataLoaded, setDataLoaded] = useState(false)
+
 
   const isEditing = params.productId !== 'create';
+
 
   const [formData, setFormData] = useState<any>({
     name: {
@@ -86,6 +90,7 @@ const ProductsForm = () => {
       findById(Number(params.productId))
         .then(response => {
           setFormData(updateAll(formData, response.data))
+          setDataLoaded(true)
         })
     }
   }, [])
@@ -94,9 +99,14 @@ const ProductsForm = () => {
     getCategories()
     .then(response => {
       setOptions(response.data)
-      console.log(options)
     })
   }, [])
+
+  useEffect(()=> {
+    if(dataLoaded){
+      setFormData(update(formData, "imgUrl", imgUrl))
+    }
+  }, [dataLoaded, imgUrl])
 
   const handleInputTurnDirty = (name: string) => {
     setFormData(dirtyAndValidate(formData, name))
@@ -119,9 +129,19 @@ const ProductsForm = () => {
       ? updateProduct(Number(params.productId), toValues(formData))
       : createProduct(toValues(formData));
 
-      request.then(()=>navigate("/admin/products"))
+      request.then(() => navigate("/admin/products"))
     }
     
+  }
+
+  const handleUploadImage = (imgUrl: string) => {
+    if(imgUrl){
+      setImgUrl(imgUrl)
+    }
+    else{
+      console.log("errinho basico")
+      dirtyAndValidate(formData, "imgUrl")
+    }
   }
 
   return (
@@ -144,7 +164,7 @@ const ProductsForm = () => {
                 <div className='dsc-form-error'>{formData.categories.message}</div>
               </div>
               <div>
-                <div className="image-upload-form"><MyDropzone></MyDropzone></div>
+                <div className="image-upload-form"><MyDropzone onUploadImage={handleUploadImage}></MyDropzone></div>
                 {/* <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" /> */}
               </div>
               <div>
