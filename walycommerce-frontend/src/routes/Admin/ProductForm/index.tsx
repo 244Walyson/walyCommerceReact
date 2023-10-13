@@ -2,12 +2,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './styles.css'
 import ButtonInverse from '../../../components/ButtonInverse'
 import FormImput from '../../../components/FormInput'
-import { dirtyAndValidate, updateAll, updateAndValidate } from '../../../utils/forms'
+import { dirtyAndValidate, dirtyAndValidateAll, hasAnyInvalid, toDirtyAll, toValues, updateAll, updateAndValidate, validateAll } from '../../../utils/forms'
 import { useState, useEffect } from 'react'
-import { findById, getCategories } from '../../../services/productService'
+import { createProduct, findById, getCategories, updateProduct } from '../../../services/productService'
 import FormTextArea from '../../../components/FormTextArea'
 import { Category } from '../../../models/CategoryModel'
 import FormSelect from '../../../components/FormSelect'
+import { selectStyles } from '../../../utils/select'
 
 const ProductsForm = () => {
 
@@ -104,11 +105,30 @@ const ProductsForm = () => {
     setFormData(updateAndValidate(formData, "categories", obj));
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const formValidated = dirtyAndValidateAll(formData)
+    if(hasAnyInvalid(formValidated)){
+      setFormData(formValidated)
+      console.log(formData)
+    }
+    else{
+      if(isEditing){
+        updateProduct(Number(params.productId), toValues(formData))
+      }
+      else{
+        createProduct(toValues(formData))
+      }
+    }
+    
+  }
+
   return (
     <main>
       <section id="product-form-section" className="dsc-container">
         <div className="dsc-product-form-container">
-          <form className="dsc-card dsc-form">
+          <form onSubmit={handleSubmit} className="dsc-card dsc-form">
             <h2>Dados do produto</h2>
             <div className="dsc-form-controls-container">
               <div>
@@ -123,7 +143,7 @@ const ProductsForm = () => {
                 <FormImput onTurnDirty={handleInputTurnDirty} onChange={handleInputChange} {...formData.imgUrl} className="dsc-form-control" />
               </div>
               <div>
-                <FormSelect className='dsc-form-control' {...formData.categories} onChange={(obj) => handleSelectForm(obj)} isMulti options={options} getOptionLabel={(obj) => obj.name} getOptionValue={(obj) => String(obj.id)} onTurnDirty={handleInputTurnDirty}></FormSelect>
+                <FormSelect styles={selectStyles} className='dsc-form-control dsc-form-select-container' {...formData.categories} onChange={(obj) => handleSelectForm(obj)} isMulti options={options} getOptionLabel={(obj) => obj.name} getOptionValue={(obj) => String(obj.id)} onTurnDirty={handleInputTurnDirty}></FormSelect>
                 <div className='dsc-form-error'>{formData.categories.message}</div>
               </div>
               <div>

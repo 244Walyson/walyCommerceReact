@@ -1,5 +1,3 @@
-import React from 'react'
-
 const FormImput = (props: any) => {
 
     const { invalid="false", onTurnDirty ,dirty="false", validation,  ...inputProps } = props;

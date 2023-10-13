@@ -80,6 +80,10 @@ const ProductsList = () => {
     navigate('/admin/products/create')
   }
 
+  const handleUpdateClick = (productId: number) => {
+    navigate(`/admin/products/${productId}`)
+  }
+
   return (
     <main>
       <section id="product-listing-section" className="dsc-container">
@@ -110,7 +114,7 @@ const ProductsList = () => {
                   <td><img className="dsc-product-listing-image" src={item.imgUrl} alt={item.name} /></td>
                   <td className="dsc-tb768">R$ {item.price.toFixed(2)}</td>
                   <td className="dsc-txt-left">{item.name}</td>
-                  <td ><img className="dsc-product-listing-btn" src={editIcon} alt="Editar" /></td>
+                  <td ><img onClick={() => handleUpdateClick(item.id)} className="dsc-product-listing-btn" src={editIcon} alt="Editar" /></td>
                   <td ><img onClick={() => handleDeleteClick(item.id)} className="dsc-product-listing-btn" src={deleteIcon} alt="Deletar" /></td>
                 </tr>
               ))}
