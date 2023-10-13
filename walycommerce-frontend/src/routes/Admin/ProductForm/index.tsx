@@ -93,6 +93,9 @@ const ProductsForm = () => {
           setDataLoaded(true)
         })
     }
+    else{
+      setDataLoaded(true)
+    }
   }, [])
 
   useEffect(() => {
