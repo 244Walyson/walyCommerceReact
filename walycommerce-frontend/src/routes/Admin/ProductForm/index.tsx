@@ -111,17 +111,14 @@ const ProductsForm = () => {
     const formValidated = dirtyAndValidateAll(formData)
     if(hasAnyInvalid(formValidated)){
       setFormData(formValidated)
-      console.log(formData)
     }
     else{
-      if(isEditing){
-        updateProduct(Number(params.productId), toValues(formData))
-        .then(() => navigate("/admin/products"))
-      }
-      else{
-        createProduct(toValues(formData))
-        .then(() => navigate('/admin/products'))
-      }
+
+      const request = isEditing 
+      ? updateProduct(Number(params.productId), toValues(formData))
+      : createProduct(toValues(formData));
+
+      request.then(()=>navigate("/admin/products"))
     }
     
   }
